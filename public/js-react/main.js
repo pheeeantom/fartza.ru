@@ -63,7 +63,7 @@ class Nav extends React.Component {
       className += ' active';
     }
     return (
-      <li className="nav-item"><a href="#" className={className} aria-current={ariaCurrent} onClick={this.handleClick}>{this.props.name}</a></li>
+      <li className="nav-item d-block d-sm-block d-md-inline-block"><a href="#" className={className} aria-current={ariaCurrent} onClick={this.handleClick}>{this.props.name}</a></li>
     );
   }
 }
@@ -71,7 +71,7 @@ class Nav extends React.Component {
 class LogReg extends React.Component {
   render() {
     return (
-      <li className="nav-item px-2"><a href="#" className="nav-link" id="logreg">Вход/Регистрация</a></li>
+      <li className="nav-item d-block d-sm-block d-md-inline-block px-3"><a href="#" className="nav-link" id="logreg">Вход/Регистрация</a></li>
     );
   }
 }

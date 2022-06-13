@@ -8,3 +8,8 @@
 	background: none;
 	color: black;
 }
+@media (max-width: 768px) {
+	#categories {
+		text-align: center !important;
+	}
+}

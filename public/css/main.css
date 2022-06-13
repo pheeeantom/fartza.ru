@@ -32,3 +32,11 @@ footer {
 .nav-item {
 	display: inline-block;
 }
+#nav {
+	text-align: right;
+}
+@media (max-width: 768px) {
+	#nav {
+		text-align: center;
+	}
+}

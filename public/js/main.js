@@ -93,7 +93,7 @@ var Nav = function (_React$Component2) {
       }
       return React.createElement(
         "li",
-        { className: "nav-item" },
+        { className: "nav-item d-block d-sm-block d-md-inline-block" },
         React.createElement(
           "a",
           { href: "#", className: className, "aria-current": ariaCurrent, onClick: this.handleClick },
@@ -120,7 +120,7 @@ var LogReg = function (_React$Component3) {
     value: function render() {
       return React.createElement(
         "li",
-        { className: "nav-item px-2" },
+        { className: "nav-item d-block d-sm-block d-md-inline-block px-3" },
         React.createElement(
           "a",
           { href: "#", className: "nav-link", id: "logreg" },
