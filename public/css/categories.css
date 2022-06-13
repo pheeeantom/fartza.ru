@@ -1,0 +1,10 @@
+.dropdown-toggle:focus {
+	box-shadow: none !important;
+}
+.dropdown-item.active {
+	background-color: #1f288c;
+}
+.dropdown-item:active {
+	background: none;
+	color: black;
+}

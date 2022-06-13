@@ -1,0 +1,34 @@
+header .nav-link.active {
+	/*background-color: #1f288c !important;
+	color: white !important;*/
+	background: none !important;
+	border: 3px solid #1f288c;
+	color: black !important;
+	padding: 7px;
+	border-radius: 7px !important;
+}
+header .nav-link.active:hover {
+	color: grey !important;
+}
+header .nav-link {
+	color:black !important;
+	padding: 10px;
+}
+header .nav-link:hover {
+	color:grey !important;
+}
+#logreg {
+	background-color: black;
+	color: white !important;
+	border-radius: 0 !important;
+}
+#logreg:hover {
+	background-color: #444;
+}
+footer {
+	background-color: #DDD;
+	color: black;
+}
+.nav-item {
+	display: inline-block;
+}
