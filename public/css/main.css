@@ -39,4 +39,7 @@ footer {
 	#nav {
 		text-align: center;
 	}
+	.nav-item {
+		margin-bottom: 10px;
+	}
 }

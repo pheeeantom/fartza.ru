@@ -8,7 +8,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var categories = {
 	"Статьи": ["Новинки", "Тренды", "Коллаборации"],
-	"Одежда": ["Б/У", "Российское", "Обувь", "Верх", "Низ", "Головные уборы"]
+	"Одежда": ["Б/У", "Российское", "ХендМейд", "Обувь", "Верх", "Низ", "Головные уборы"]
 };
 
 var CategoriesBar = function (_React$Component) {
