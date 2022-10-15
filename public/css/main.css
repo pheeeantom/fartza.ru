@@ -35,6 +35,10 @@ footer {
 #nav {
 	text-align: right;
 }
+.btn-primary {
+	color: white !important;
+	background-color: #1f288c !important;
+}
 @media (max-width: 768px) {
 	#nav {
 		text-align: center;
