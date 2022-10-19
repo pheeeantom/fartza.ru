@@ -58,9 +58,15 @@ app.get("/", function(request, response) {
 
 app.post("/api", function(request, response) {
 	//console.log(request.body);
-	if (request.body.command == 'getGoods') {
+	if (request.body.command == 'getNew') {
 		let getter = new goods.Getter(pool);
 		getter.getNew(request.body.since).then(result => {
+			response.json( { 'goods': result } );
+		});
+	}
+	else if (request.body.command == 'getPopular') {
+		let getter = new goods.Getter(pool);
+		getter.getPopular(request.body.since).then(result => {
 			response.json( { 'goods': result } );
 		});
 	}
@@ -72,13 +78,24 @@ app.post("/api", function(request, response) {
 	}
 	else if (request.body.command == 'searchGoods') {
 		let getter = new goods.Getter(pool);
-		getter.search(request.body.word).then(result => {
-			response.json( { 'goods': result } );
-		});
+		if (request.body.sort) {
+			getter.search(request.body.word, request.body.since, request.body.sort).then(result => {
+				response.json( { 'goods': result } );
+			});
+		}
+		else {
+			getter.search(request.body.word, request.body.since).then(result => {
+				response.json( { 'goods': result } );
+			});
+		}
 	}
 });
 
 app.get("/goods/:id", function(request, response) {
+	pool.execute("UPDATE `goods` SET `views` = `views` + 1 WHERE id = " + request.params["id"] + ";")
+		.catch(function(err) {
+			console.log(err.message);
+		});
 	response.render("goods", {
         page: "goods",
         categories: false

@@ -2,7 +2,9 @@
 	box-shadow: none !important;
 }
 .dropdown-item.active {
-	background-color: #1f288c;
+	/*background-color: #1f288c;*/
+	background-color: black;
+	color: white;
 }
 .dropdown-item:active {
 	background: none;

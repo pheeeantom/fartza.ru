@@ -130,3 +130,5 @@ GRANT SELECT,UPDATE,INSERT,DELETE ON fartsa . * TO 'fartsa'@'localhost';
 
 ALTER TABLE goods DROP FOREIGN KEY goods_user_id_users_id_foreign;
 ALTER TABLE goods DROP COLUMN user_id;
+
+ALTER TABLE goods MODIFY COLUMN `views` int DEFAULT 0;

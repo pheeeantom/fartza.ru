@@ -2,7 +2,8 @@ header .nav-link.active {
 	/*background-color: #1f288c !important;
 	color: white !important;*/
 	background: none !important;
-	border: 3px solid #1f288c;
+	/*border: 3px solid #1f288c;*/
+	border: 3px solid black;
 	color: black !important;
 	padding: 7px;
 	border-radius: 7px !important;
@@ -37,7 +38,11 @@ footer {
 }
 .btn-primary {
 	color: white !important;
-	background-color: #1f288c !important;
+	/*background-color: #1f288c !important;*/
+	background-color: black !important;
+}
+input:focus {
+	box-shadow: 0 0 4px 2px #444 !important;
 }
 @media (max-width: 768px) {
 	#nav {

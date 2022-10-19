@@ -25,6 +25,17 @@ exports.Getter = class Getter {
 			    });
 		});
 	}
+	getPopular(since) {
+		return new Promise(resolve => {
+			this.pool.execute("SELECT * FROM (SELECT * FROM `goods` WHERE `status`='active') AS T ORDER BY `views` DESC LIMIT 10 OFFSET " + since + ";")
+				.then(result => { 
+		      		resolve(result);
+				})
+				.catch(function(err) {
+			    	console.log(err.message);
+			    });
+		});
+	}
 	getById(id) {
 		return new Promise(resolve => {
 			this.pool.execute("SELECT * FROM goods WHERE `id`=" + id + ";")
@@ -36,16 +47,29 @@ exports.Getter = class Getter {
 			    });
 		});
 	}
-	search(word) {
-		return new Promise(resolve => {
-			this.pool.execute("SELECT * FROM goods WHERE name LIKE '%" + word + "%' AND `status`='active';")
-				.then(result => { 
-		      		resolve(result);
-				})
-				.catch(function(err) {
-			    	console.log(err.message);
-			    });
-		});
+	search(word, since, sort) {
+		if (!sort || sort == 'new') {
+			return new Promise(resolve => {
+				this.pool.execute("SELECT * FROM goods WHERE name LIKE '%" + word + "%' AND `status`='active' ORDER BY `id` DESC LIMIT 10 OFFSET " + since + ";")
+					.then(result => { 
+			      		resolve(result);
+					})
+					.catch(function(err) {
+				    	console.log(err.message);
+				    });
+			});
+		}
+		else {
+			return new Promise(resolve => {
+				this.pool.execute("SELECT * FROM goods WHERE name LIKE '%" + word + "%' AND `status`='active' ORDER BY `views` DESC LIMIT 10 OFFSET " + since + ";")
+					.then(result => { 
+			      		resolve(result);
+					})
+					.catch(function(err) {
+				    	console.log(err.message);
+				    });
+			});
+		}
 	}
 }
 
