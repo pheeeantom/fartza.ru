@@ -132,3 +132,15 @@ ALTER TABLE goods DROP FOREIGN KEY goods_user_id_users_id_foreign;
 ALTER TABLE goods DROP COLUMN user_id;
 
 ALTER TABLE goods MODIFY COLUMN `views` int DEFAULT 0;
+
+ALTER USER 'fartsa'@'localhost' IDENTIFIED WITH mysql_native_password BY 'S$PD5TsU@ke8JEhT~J9M';
+flush privileges;
+
+CREATE TABLE `users_sessions` (
+  `session_id` varchar(128) UNIQUE NOT NULL,
+  `expires` int unsigned,
+  `data` mediumtext,
+  PRIMARY KEY (`session_id`)
+);
+
+create table captchas(`id` int UNSIGNED AUTO_INCREMENT NOT NULL, `uuid` varchar(36) NOT NULL, `captcha` varchar(200) NOT NULL, PRIMARY KEY (`id`));

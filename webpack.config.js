@@ -33,4 +33,20 @@ module.exports = [
     entry: './public/js-react/main.js',
     mode: 'production',
   },
+  {
+    output: {
+      filename: './logreg.js',
+      path: path.resolve(__dirname, 'public/js'),
+    },
+    entry: './public/js-react/logreg.js',
+    mode: 'production',
+  },
+  {
+    output: {
+      filename: './goods_create.js',
+      path: path.resolve(__dirname, 'public/js'),
+    },
+    entry: './public/js-react/goods_create.js',
+    mode: 'production',
+  },
 ];

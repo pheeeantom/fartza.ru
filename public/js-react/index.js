@@ -432,7 +432,7 @@ var NavBar = function (_React$Component4) {
 }(React.Component);
 
 var _initialiseProps = function _initialiseProps() {
-	var _this9 = this;
+	var _this10 = this;
 
 	this.output = function (num) {
 		var active = [];
@@ -440,7 +440,7 @@ var _initialiseProps = function _initialiseProps() {
 			active.push(false);
 		}
 		active[num] = true;
-		_this9.setState({ isActive: active });
+		_this10.setState({ isActive: active });
 	};
 };
 
@@ -505,24 +505,100 @@ var Nav = function (_React$Component5) {
 var LogReg = function (_React$Component6) {
 	_inherits(LogReg, _React$Component6);
 
-	function LogReg() {
+	function LogReg(props) {
 		_classCallCheck(this, LogReg);
 
-		return _possibleConstructorReturn(this, (LogReg.__proto__ || Object.getPrototypeOf(LogReg)).apply(this, arguments));
+		var _this8 = _possibleConstructorReturn(this, (LogReg.__proto__ || Object.getPrototypeOf(LogReg)).call(this, props));
+
+		_this8.state = { logout: false, confirm: null, nick: null };
+		return _this8;
 	}
 
 	_createClass(LogReg, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			var _this9 = this;
+
+			fetch('/api', {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ command: 'isLoggedIn' })
+			}).then(function (response) {
+				response.json().then(function (body) {
+					_this9.setState({ logout: body.logout, confirm: body.confirm, nick: body.nick });
+				});
+			});
+		}
+	}, {
 		key: "render",
 		value: function render() {
-			return React.createElement(
-				"li",
-				{ className: "nav-item d-block d-sm-block d-md-inline-block px-3" },
-				React.createElement(
-					"a",
-					{ href: "#", className: "nav-link", id: "logreg" },
-					"\u0412\u0445\u043E\u0434/\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F"
-				)
-			);
+			console.log(this.state);
+			if (!this.state.logout) {
+				return React.createElement(
+					"li",
+					{ className: "nav-item d-block d-sm-block d-md-inline-block px-3" },
+					React.createElement(
+						"a",
+						{ href: "/logreg", className: "nav-link", id: "logreg" },
+						"\u0412\u0445\u043E\u0434/\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F"
+					)
+				);
+			} else {
+				return React.createElement(
+					"div",
+					{ className: "dropdown d-block d-sm-block d-md-inline-block px-3" },
+					React.createElement(
+						"button",
+						{ className: "btn btn-primary dropdown-toggle", type: "button", id: "dropdownMenuButton", "data-bs-toggle": "dropdown", "aria-expanded": "false" },
+						this.state.nick,
+						" ",
+						this.state.confirm ? "(осуществлен вход)" : "(требуется подтверждение почты)"
+					),
+					React.createElement(
+						"ul",
+						{ className: "dropdown-menu", "aria-labelledby": "dropdownMenuButton" },
+						this.state.confirm ? React.createElement(
+							"li",
+							null,
+							React.createElement(
+								"a",
+								{ className: "dropdown-item", href: "/goods/create" },
+								"\u041F\u0440\u043E\u0434\u0430\u0442\u044C"
+							)
+						) : '',
+						this.state.confirm ? React.createElement(
+							"li",
+							null,
+							React.createElement(
+								"a",
+								{ className: "dropdown-item", href: "#" },
+								"\u0421\u043E\u0437\u0434\u0430\u043D\u043E"
+							)
+						) : '',
+						React.createElement(
+							"li",
+							null,
+							React.createElement(
+								"a",
+								{ className: "dropdown-item", href: "#" },
+								"\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+							)
+						),
+						React.createElement(
+							"li",
+							null,
+							React.createElement(
+								"a",
+								{ className: "dropdown-item", href: "/logout" },
+								"\u0412\u044B\u0439\u0442\u0438"
+							)
+						)
+					)
+				);
+			}
 		}
 	}]);
 

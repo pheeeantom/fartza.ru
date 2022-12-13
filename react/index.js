@@ -338,10 +338,46 @@ class Nav extends React.Component {
 }
 
 class LogReg extends React.Component {
+  constructor(props) {
+  	super(props);
+  	this.state = {logout: false, confirm: null, nick: null};
+  }
+  componentDidMount() {
+  	fetch('/api', {
+			method: 'POST',
+		    headers: {
+		      'Accept': 'application/json',
+		      'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify({ command: 'isLoggedIn' })
+		}).then(response => {
+			response.json().then(body => {
+				this.setState({logout: body.logout, confirm: body.confirm, nick: body.nick});
+			});
+		});
+  }
   render() {
-    return (
-      <li className="nav-item d-block d-sm-block d-md-inline-block px-3"><a href="#" className="nav-link" id="logreg">Вход/Регистрация</a></li>
-    );
+  	console.log(this.state);
+  	if (!this.state.logout) {
+  	  return (
+	    <li className="nav-item d-block d-sm-block d-md-inline-block px-3"><a href="/logreg" className="nav-link" id="logreg">Вход/Регистрация</a></li>
+	  );
+  	}
+    else {
+      return (
+      	<div className="dropdown d-block d-sm-block d-md-inline-block px-3">
+          <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            {this.state.nick} {this.state.confirm ? "(осуществлен вход)" : "(требуется подтверждение почты)"}
+          </button>
+          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {this.state.confirm ? <li><a className="dropdown-item" href="/goods/create">Продать</a></li> : ''}
+            {this.state.confirm ? <li><a className="dropdown-item" href="#">Создано</a></li> : ''}
+            <li><a className="dropdown-item" href="#">Настройки</a></li>
+            <li><a className="dropdown-item" href="/logout">Выйти</a></li>
+          </ul>
+        </div>
+      );
+    }
   }
 }
 

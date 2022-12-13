@@ -41,7 +41,7 @@ footer {
 	/*background-color: #1f288c !important;*/
 	background-color: black !important;
 }
-input:focus {
+input:focus, textarea:focus {
 	box-shadow: 0 0 4px 2px #444 !important;
 }
 @media (max-width: 768px) {
