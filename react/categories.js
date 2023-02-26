@@ -1,3 +1,5 @@
+import React from "react";
+
 var categories = {
 	"Статьи": [
 		"Новинки","Тренды","Коллаборации"
@@ -7,7 +9,7 @@ var categories = {
 	]
 };
 
-class CategoriesBar extends React.Component {
+export default class CategoriesBar extends React.Component {
 	constructor(props) {
 		super(props);
 		var active = [];
@@ -33,8 +35,14 @@ class CategoriesBar extends React.Component {
 	      rows.push(<Category isActive={this.state.isActive[i]} name={Object.keys(categories)[i]} links={categories[Object.keys(categories)[i]]} func={this.output}/>);
 	    }
 		return (
-			<div className="dropdown">
-			  {rows}
+			<div className="col-xs-12 col-sm-12 col-md-4 col-lg-3 mt-3">
+				<div className="d-flex flex-column p-3 bg-light">
+					<aside id="categories">
+						<div className="dropdown">
+							{rows}
+						</div>
+					</aside>
+				</div>
 			</div>
 		);
 	}
@@ -115,7 +123,7 @@ class Link extends React.Component {
 	}
 }
 
-ReactDOM.render(
+/*ReactDOM.render(
   <CategoriesBar />,
   document.getElementById('categories')
-);
+);*/

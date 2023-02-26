@@ -78,12 +78,12 @@ app.engine('hbs', expressHbs.engine(
 	        style(page) {
 			    return new hbs.SafeString('<link href="/css/' + page + '.css" rel="stylesheet">');
 	        },
-	        script(page) {
+	        /*script(page) {
 			    return new hbs.SafeString('<script src="/js/' + page + '.js"></script>');
 	        },
 	        categoriesScript(categories) {
 	        	return categories ? new hbs.SafeString('<script src="/js/categories.js"></script>') : null;
-	        },
+	        },*/
 	        categoriesStyle(categories) {
 	        	return categories ? new hbs.SafeString('<link href="/css/categories.css" rel="stylesheet">') : null;
 	        }
@@ -167,7 +167,7 @@ app.get("/confirm", function(request, response) {
 
 app.get("/logreg", function(request, response) {
 	if (!request.user) {
-		response.render("logreg", {
+		response.render("index", {
         	categories: false,
         	page: "logreg"
     	});
@@ -351,31 +351,31 @@ app.post("/api", function(request, response) {
 	if (request.body.command == 'getNew') {
 		let getter = new goods.Getter(pool);
 		getter.getNew(request.body.since).then(result => {
-			response.json( { 'goods': result } );
+			response.json( { 'goods': [result[0]] } );
 		});
 	}
 	else if (request.body.command == 'getPopular') {
 		let getter = new goods.Getter(pool);
 		getter.getPopular(request.body.since).then(result => {
-			response.json( { 'goods': result } );
+			response.json( { 'goods': [result[0]] } );
 		});
 	}
 	else if (request.body.command == 'getGoodsById') {
 		let getter = new goods.Getter(pool);
 		getter.getById(request.body.id).then(result => {
-			response.json( { 'goods': result } );
+			response.json( { 'goods': [result[0]] } );
 		});
 	}
 	else if (request.body.command == 'searchGoods') {
 		let getter = new goods.Getter(pool);
 		if (request.body.sort) {
 			getter.search(request.body.word, request.body.since, request.body.sort).then(result => {
-				response.json( { 'goods': result } );
+				response.json( { 'goods': [result[0]] } );
 			});
 		}
 		else {
 			getter.search(request.body.word, request.body.since).then(result => {
-				response.json( { 'goods': result } );
+				response.json( { 'goods': [result[0]] } );
 			});
 		}
 	}
@@ -399,7 +399,7 @@ app.get("/goods/:id", function(request, response) {
 		.catch(err => {
 			console.log(err.message);
 		});
-	response.render("goods", {
+	response.render("index", {
         page: "goods",
         categories: false
     });

@@ -1,8 +1,11 @@
-class FormBar extends React.Component {
+import React from "react";
+
+export default class FormBar extends React.Component {
 	constructor(props) {
 		super(props);
 		const queryParams = new URLSearchParams(window.location.search);
 		const num = queryParams.get("num");
+		let active;
 		if (num == 0 || num == undefined) {
 	    	active = [true, false];
 	    }
@@ -53,16 +56,21 @@ class FormBar extends React.Component {
 			return <div>Loading...</div>;
 		} else {
 			return (
-				<div>
-					<div className="text-center">
-				        <input type="checkbox" className="btn-check" id="btn-check-login" onClick={this.check.bind(this, 0)}/>
-				        <label className={this.state.isActive[0] ? classLink + " checked" : classLink} htmlFor="btn-check-login">Войти</label>
-				        <pre className="d-inline"> | </pre>
-				        <input type="checkbox" className="btn-check" id="btn-check-registration" onClick={this.check.bind(this, 1)}/>
-				        <label className={this.state.isActive[1] ? classLink + " checked" : classLink} htmlFor="btn-check-registration">Зарегистрироваться</label>
-				    </div>
-				    <Login isActive={this.state.isActive[0]} base64Captcha={image}/>
-				    <Registration isActive={this.state.isActive[1]} base64Captcha={image}/>
+				<div class="row">
+					<div class="col-sm-1 col-md-3 col-lg-4"></div>
+					<div class="col-xs-12 col-sm-10 col-md-6 col-lg-4" id="logreg-form">
+						<div>
+							<div className="text-center">
+								<input type="checkbox" className="btn-check" id="btn-check-login" onClick={this.check.bind(this, 0)}/>
+								<label className={this.state.isActive[0] ? classLink + " checked" : classLink} htmlFor="btn-check-login">Войти</label>
+								<pre className="d-inline"> | </pre>
+								<input type="checkbox" className="btn-check" id="btn-check-registration" onClick={this.check.bind(this, 1)}/>
+								<label className={this.state.isActive[1] ? classLink + " checked" : classLink} htmlFor="btn-check-registration">Зарегистрироваться</label>
+							</div>
+							<Login isActive={this.state.isActive[0]} base64Captcha={image}/>
+							<Registration isActive={this.state.isActive[1]} base64Captcha={image}/>
+						</div>
+					</div>
 				</div>
 			);
 		}
@@ -181,7 +189,8 @@ class Registration extends React.Component {
 		const isNicknameBusy = queryParams.get("nicknameBusy");
 		const isEmailBusy = queryParams.get("emailBusy");
 		const isCaptchaInvalid = queryParams.get("captcha");
-		let classEmail = classNickname = "form-text text-danger";
+		let classEmail = "form-text text-danger";
+		let classNickname = "form-text text-danger";
 		let classSmall = "mes text-center pt-3 pb-3 mt-3 mb-4";
 		let classSmallCaptcha = "mes text-center pt-3 pb-3 mt-3 mb-4";
 		if (!isNicknameBusy) {
@@ -426,10 +435,10 @@ class Captcha extends React.Component {
 	}
 }
 
-ReactDOM.render(
+/*ReactDOM.render(
   <FormBar />,
   document.getElementById('logreg-form')
-);
+);*/
 
 /*<div class="text-center">
         <input type="checkbox" class="btn-check" id="btn-check-login">

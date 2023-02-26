@@ -1,4 +1,6 @@
-class ProductWrapper extends React.Component {
+import React from "react";
+
+export default class ProductWrapper extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { goods: 0 };
@@ -14,13 +16,14 @@ class ProductWrapper extends React.Component {
 		/*const data = new FormData();
 		data.append('command', 'getGoods');
 		data.append('since', 0);*/
+		//let searchParams = new URLSearchParams(location.search);
 		fetch('/api', {
 			method: 'POST',
 		    headers: {
 		      'Accept': 'application/json',
 		      'Content-Type': 'application/json'
 		    },
-		    body: JSON.stringify({ command: 'getGoodsById', id: window.location.href.match("goods/(.+)#?")[1] })
+		    body: JSON.stringify({ command: 'getGoodsById', id: /*window.location.href.match("goods/(.+)#?")[1]*/ window.location.pathname.split('/').pop() || window.location.pathname.split('/').slice(0, -1).pop() })
 		}).then(response => {
 			response.json().then(body => {
 				this.setState({ goods: body.goods[0] });
@@ -36,7 +39,11 @@ class ProductWrapper extends React.Component {
 		}
 		else {
 			return (
-				<Product id={this.state.goods[0].id} name={this.state.goods[0].name} img={this.state.goods[0].photos} price={this.state.goods[0].price} createdAt={this.state.goods[0].created_at} desc={this.state.goods[0].description} views={this.state.goods[0].views} />
+				<div class="mb-3 mt-3">
+					<main id="goods-min">
+						<Product id={this.state.goods[0].id} name={this.state.goods[0].name} img={this.state.goods[0].photos} price={this.state.goods[0].price} createdAt={this.state.goods[0].created_at} desc={this.state.goods[0].description} views={this.state.goods[0].views} />
+					</main>
+				</div>
 			);
 		}
 	}
@@ -106,7 +113,7 @@ class Product extends React.Component {
 	}
 }
 
-class SearchGoods extends React.Component {
+/*class SearchGoods extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -123,9 +130,9 @@ class SearchGoods extends React.Component {
 			</div>
 		);
 	}
-}
+}*/
 
-ReactDOM.render(
+/*ReactDOM.render(
   <ProductWrapper />,
   document.getElementById('goods-min')
 );
@@ -133,4 +140,4 @@ ReactDOM.render(
 ReactDOM.render(
   <SearchGoods />,
   document.getElementById('search-wrapper')
-);
+);*/

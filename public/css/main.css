@@ -44,6 +44,11 @@ footer {
 input:focus, textarea:focus {
 	box-shadow: 0 0 4px 2px #444 !important;
 }
+.res {
+	border: none;
+	background-color: rgba(0,0,0,0);
+	margin: 10px;
+}
 @media (max-width: 768px) {
 	#nav {
 		text-align: center;
