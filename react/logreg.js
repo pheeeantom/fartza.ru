@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from 'react-redux';
+import { logregAPI } from "../store/services/logreg_service";
 
-export default class FormBar extends React.Component {
+class FormBar extends React.Component {
 	constructor(props) {
 		super(props);
 		const queryParams = new URLSearchParams(window.location.search);
@@ -12,11 +14,11 @@ export default class FormBar extends React.Component {
 	    else if (num == 1) {
 	    	active = [false, true];
 	    }
-		this.state = { isActive: active, error: null, isLoaded: false, image: null };
+		this.state = { isActive: active/*, error: null, isLoaded: false, image: null*/ };
 		this.check = this.check.bind(this);
 	}
 	componentDidMount() {
-		fetch("/getCaptcha")
+		/*fetch("/getCaptcha")
 			.then(res => res.json())
 			.then(
 				(result) => {
@@ -34,9 +36,11 @@ export default class FormBar extends React.Component {
 						error
 					});
 				}
-			);
+			);*/
+		this.props.fetchCaptcha();
 	}
 	check = num => {
+		let active;
 	    if (num == 0) {
 	    	active = [true, false];
 	    }
@@ -47,9 +51,9 @@ export default class FormBar extends React.Component {
 	}
 	render() {
 		let classLink = "btn shadow-none";
-		const error = this.state.error;
-		const isLoaded = this.state.isLoaded;
-		const image = this.state.image;
+		const error = this.props.fetchCaptchaState().isError;
+		const isLoaded = !this.props.fetchCaptchaState().isLoading;
+		const image = this.props.fetchCaptchaState().data?.image;
 		if (error) {
 			return <div>Error: {error.message}</div>;
 		} else if (!isLoaded) {
@@ -434,6 +438,18 @@ class Captcha extends React.Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+    return {
+		fetchCaptchaState: () => logregAPI.endpoints.fetchCaptcha.select()(state)
+    };
+}
+
+const mapDispatchToProps = {
+    fetchCaptcha: logregAPI.endpoints.fetchCaptcha.initiate
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormBar);
 
 /*ReactDOM.render(
   <FormBar />,

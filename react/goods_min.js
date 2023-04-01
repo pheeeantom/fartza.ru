@@ -1,15 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getGoodsFromAPI } from '../store/reducers/action_creators';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { fetchAllGoodsState, goodsAPI } from '../store/services/goods_service';
+import { store } from './app';
+import { setLastArgs } from '../store/reducers/goods_slice';
 
-export default class GoodsMin extends React.Component {
+class GoodsMin extends React.Component {
+//	unsubscribe = null;
+
 	constructor(props) {
 		super(props);
-		this.state = { goods: this.props.goods};
-		this.getNew = this.getNew.bind(this);
-		this.getPopular = this.getPopular.bind(this);
+		//this.state = { lastArgs: null };
+		//this.state = { goods: useSelector((state) => state.goods) };
+		//this.getNew = this.getNew.bind(this);
+		//this.getPopular = this.getPopular.bind(this);
+  		//this.dispatch = useDispatch();
 		//const subscriptionChangeState = this.props.emitter.subscribe("CHANGE", (state) => this.setState({ goods: state }));
 	}
 
-	getNew() {
+	//getNew() {
 		/*const data = new FormData();
 		data.append('command', 'getGoods');
 		data.append('since', 0);*/
@@ -35,12 +45,17 @@ export default class GoodsMin extends React.Component {
 		}).catch(reject => {
 			this.props.updateGoods(reject.error);
 		});*/
-		const searchParams = new URLSearchParams(location.search);
-		this.props.getGoodsFromAPI((searchParams.get('query') && searchParams.get('query').length > 1) ? searchParams.get('query') : "", 0, 'new');
+		
+		//const searchParams = new URLSearchParams(location.search);
+		//this.props.getGoodsFromAPI((searchParams.get('query') && searchParams.get('query').length > 1) ? searchParams.get('query') : "", 0, 'new');
+		
+		/*const searchParams = new URLSearchParams(location.search);
+		this.props.getGoodsAll({ word: ((searchParams.get('query') && searchParams.get('query').length > 1) ?
+			searchParams.get('query') : ""), since: 0, sort: 'new'});*/
 		//console.log(10);
-	}
+	//}
 
-	getPopular() {
+	//getPopular() {
 		/*const searchParams = new URLSearchParams(location.search);
 		this.props.sendAPIRequest({ command: 'searchGoods', word: (searchParams.get('query') && searchParams.get('query').length > 1) ? searchParams.get('query') : "", since: 0, sort: 'popular' }, '/api', 'POST').then(resolve => {
 			if (resolve.body.goods[0].length == 0) {
@@ -51,24 +66,44 @@ export default class GoodsMin extends React.Component {
 		}).catch(reject => {
 			this.props.updateGoods(reject.error);
 		});*/
-		const searchParams = new URLSearchParams(location.search);
-		this.props.getGoodsFromAPI((searchParams.get('query') && searchParams.get('query').length > 1) ? searchParams.get('query') : "", 0, 'popular');
-	}
+		
+		//const searchParams = new URLSearchParams(location.search);
+		//this.props.getGoodsFromAPI((searchParams.get('query') && searchParams.get('query').length > 1) ? searchParams.get('query') : "", 0, 'popular');
+		/*const searchParams = new URLSearchParams(location.search);
+		this.props.getGoodsAll({ word: ((searchParams.get('query') && searchParams.get('query').length > 1) ?
+			searchParams.get('query') : ""), since: 0, sort: 'popular'})
+	}*/
 
 	componentDidMount() {
-		let searchParams = new URLSearchParams(location.search);
+/*
+		const { fetchAllGoods } = this.props;
+		// Start a subscription for the component to the cached data
+		const { unsubscribe } = fetchAllGoods();
+	
+		// Store the unsubscribe promise for later use
+		this.unsubscribe = unsubscribe;
+*/
+
+
+		const searchParams = new URLSearchParams(location.search);
+		let lastArgs = { word: ((searchParams.get('query') && searchParams.get('query').length > 1) ?
+			searchParams.get('query') : ""), since: 0};
 		if (searchParams.get('sort') == 'new' || !searchParams.get('sort')) {
-			this.getNew();
+			this.props.fetchAllGoods({ ...lastArgs, sort: 'new' });
+			this.props.setLastArgs({ ...lastArgs, sort: 'new' });
+			//this.setState({ lastArgs: { ...lastArgs, sort: 'new' } });
 		}
 		else if (searchParams.get('sort') == 'popular') {
-			this.getPopular();
+			this.props.fetchAllGoods({ ...lastArgs, sort: 'popular' });
+			this.props.setLastArgs({ ...lastArgs, sort: 'popular' });
+			//this.setState({ lastArgs: { ...lastArgs, sort: 'popular' } });
 		}
 	}
 
-	componentDidUpdate(prevProps) {
+	/*componentDidUpdate(prevProps) {
 		if (this.props.goods !== prevProps.goods)
 			this.setState({goods: this.props.goods});
-	}
+	}*/
 
 	/*componentWillReceiveProps(nextProps) {
 		console.log(nextProps.goods);
@@ -111,14 +146,30 @@ export default class GoodsMin extends React.Component {
 			  {rowsGroups}
 			</div>
 		);*/
-		console.log(this.state.goods);
+		//console.log(this.state.goods);
 		let rows = [];
-		if (this.state.goods instanceof Array) {
-			for (let i = 0; i < this.state.goods.length; i++)
-				rows.push(<Card id={this.state.goods[i].id} name={this.state.goods[i].name} img={this.state.goods[i].photos} price={this.state.goods[i].price} createdAt={this.state.goods[i].created_at} />);
-		} else {
-			rows = this.state.goods;
+		//let fetchAllGoodsState = goodsAPI.endpoints.fetchAllGoods;
+		//console.log(fetchAllGoodsState.select(this.state.lastArgs)(store.getState()));
+		//console.log(fetchAllGoodsState);
+		//console.log(this.state.lastArgs);
+		console.log(this.props.fetchAllGoodsState(this.props.lastArgs));
+		//console.log(fetchAllGoodsState(store.getState()));
+		if (!this.props.fetchAllGoodsState(this.props.lastArgs).isLoading &&
+			!this.props.fetchAllGoodsState(this.props.lastArgs).isUninitialized) {
+			if (!this.props.fetchAllGoodsState(this.props.lastArgs).isError) {
+				let goods = this.props.fetchAllGoodsState(this.props.lastArgs).data.goods[0];
+				//console.log(goods);
+				for (let i = 0; i < goods.length; i++)
+					rows.push(<Card id={goods[i].id} name={goods[i].name} img={goods[i].photos} price={goods[i].price}
+						createdAt={goods[i].created_at} />);
+			} else {
+				rows = this.props.fetchAllGoodsState(this.props.lastArgs).error.data.error;
+			}
 		}
+		else {
+			rows = 'Подождите, идет загрузка...';
+		}
+		//console.log(this.props.lastArgs);
 		return (
 			<div className="col-xs-12 col-sm-12 col-md-8 col-lg-9 mb-3 mt-3">
 				<main id="goods-min">
@@ -144,6 +195,7 @@ class Card extends React.Component {
 	        minute: 'numeric'
 	      });
 		let butImg = [];
+		//console.log(this.props.img);
 		for (let i = 0; i < this.props.img.length; i++) {
 			if (i == 0)
 				butImg.push(<button type="button" data-bs-target={"#carouselGoodsIndicators" + this.props.id} data-bs-slide-to={i} className="active" aria-current="true" aria-label={"Slide " + i}></button>);
@@ -186,6 +238,30 @@ class Card extends React.Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+    return {
+		fetchAllGoodsState: (args) => goodsAPI.endpoints.fetchAllGoods.select(args)(state),
+		lastArgs: state.goodsReducer.lastArgs
+    };
+}
+
+/*goods: state.goodsReducer.goods,
+isLoading: state.goodsReducer.isLoading,
+error: state.goodsReducer.error*/
+
+/*const mapDispatchToProps =  (dispatch) => {
+  return {
+    getGoodsAll: (word, since, sort) => dispatch(getGoodsFromAPI(word, since, sort))
+  }
+}*/
+
+const mapDispatchToProps = {
+    fetchAllGoods: goodsAPI.endpoints.fetchAllGoods.initiate,//(args) => dispatch(goodsAPI.endpoints.fetchAllGoods.initiate(args)) //(args) => dispatch(getGoodsFromAPI(args))
+	setLastArgs: setLastArgs
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoodsMin);
 
 /*ReactDOM.render(
   <GoodsMin />,

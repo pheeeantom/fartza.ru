@@ -9,10 +9,12 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ FormBar)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_services_logreg_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/services/logreg_service */ "./store/services/logreg_service.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -28,6 +30,8 @@ function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key i
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
+
+
 var FormBar = /*#__PURE__*/function (_React$Component) {
   _inherits(FormBar, _React$Component);
   var _super = _createSuper(FormBar);
@@ -36,6 +40,7 @@ var FormBar = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, FormBar);
     _this = _super.call(this, props);
     _defineProperty(_assertThisInitialized(_this), "check", function (num) {
+      var active;
       if (num == 0) {
         active = [true, false];
       } else if (num == 1) {
@@ -54,10 +59,7 @@ var FormBar = /*#__PURE__*/function (_React$Component) {
       _active = [false, true];
     }
     _this.state = {
-      isActive: _active,
-      error: null,
-      isLoaded: false,
-      image: null
+      isActive: _active /*, error: null, isLoaded: false, image: null*/
     };
     _this.check = _this.check.bind(_assertThisInitialized(_this));
     return _this;
@@ -65,32 +67,35 @@ var FormBar = /*#__PURE__*/function (_React$Component) {
   _createClass(FormBar, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-      fetch("/getCaptcha").then(function (res) {
-        return res.json();
-      }).then(function (result) {
-        _this2.setState({
-          isLoaded: true,
-          image: result.image
-        });
-      },
-      // Note: it's important to handle errors here
-      // instead of a catch() block so that we don't swallow
-      // exceptions from actual bugs in components.
-      function (error) {
-        _this2.setState({
-          isLoaded: true,
-          error: error
-        });
-      });
+      /*fetch("/getCaptcha")
+      	.then(res => res.json())
+      	.then(
+      		(result) => {
+      			this.setState({
+      				isLoaded: true,
+      				image: result.image
+      			});
+      		},
+      		// Note: it's important to handle errors here
+      		// instead of a catch() block so that we don't swallow
+      		// exceptions from actual bugs in components.
+      		(error) => {
+      			this.setState({
+      				isLoaded: true,
+      				error
+      			});
+      		}
+      	);*/
+      this.props.fetchCaptcha();
     }
   }, {
     key: "render",
     value: function render() {
+      var _this$props$fetchCapt;
       var classLink = "btn shadow-none";
-      var error = this.state.error;
-      var isLoaded = this.state.isLoaded;
-      var image = this.state.image;
+      var error = this.props.fetchCaptchaState().isError;
+      var isLoaded = !this.props.fetchCaptchaState().isLoading;
+      var image = (_this$props$fetchCapt = this.props.fetchCaptchaState().data) === null || _this$props$fetchCapt === void 0 ? void 0 : _this$props$fetchCapt.image;
       if (error) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "Error: ", error.message);
       } else if (!isLoaded) {
@@ -135,24 +140,23 @@ var FormBar = /*#__PURE__*/function (_React$Component) {
   }]);
   return FormBar;
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
-
 var Login = /*#__PURE__*/function (_React$Component2) {
   _inherits(Login, _React$Component2);
   var _super2 = _createSuper(Login);
   function Login(props) {
-    var _this3;
+    var _this2;
     _classCallCheck(this, Login);
-    _this3 = _super2.call(this, props);
-    _this3.state = {
+    _this2 = _super2.call(this, props);
+    _this2.state = {
       first: true,
       disabled: true
     };
-    _this3.showTips = _this3.showTips.bind(_assertThisInitialized(_this3));
-    _this3.manipulteSubmit = _this3.manipulteSubmit.bind(_assertThisInitialized(_this3));
-    _this3.email = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-    _this3.password = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-    _this3.captcha = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-    return _this3;
+    _this2.showTips = _this2.showTips.bind(_assertThisInitialized(_this2));
+    _this2.manipulteSubmit = _this2.manipulteSubmit.bind(_assertThisInitialized(_this2));
+    _this2.email = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
+    _this2.password = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
+    _this2.captcha = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
+    return _this2;
   }
   _createClass(Login, [{
     key: "showTips",
@@ -242,22 +246,22 @@ var Registration = /*#__PURE__*/function (_React$Component3) {
   _inherits(Registration, _React$Component3);
   var _super3 = _createSuper(Registration);
   function Registration(props) {
-    var _this4;
+    var _this3;
     _classCallCheck(this, Registration);
-    _this4 = _super3.call(this, props);
-    _this4.state = {
+    _this3 = _super3.call(this, props);
+    _this3.state = {
       first: true,
       disabled: true
     };
-    _this4.showTips = _this4.showTips.bind(_assertThisInitialized(_this4));
-    _this4.manipulteSubmit = _this4.manipulteSubmit.bind(_assertThisInitialized(_this4));
-    _this4.checkPassIdentity = _this4.checkPassIdentity.bind(_assertThisInitialized(_this4));
-    _this4.nickname = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-    _this4.email = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-    _this4.password = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-    _this4.password2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-    _this4.captcha = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-    return _this4;
+    _this3.showTips = _this3.showTips.bind(_assertThisInitialized(_this3));
+    _this3.manipulteSubmit = _this3.manipulteSubmit.bind(_assertThisInitialized(_this3));
+    _this3.checkPassIdentity = _this3.checkPassIdentity.bind(_assertThisInitialized(_this3));
+    _this3.nickname = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
+    _this3.email = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
+    _this3.password = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
+    _this3.password2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
+    _this3.captcha = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
+    return _this3;
   }
   _createClass(Registration, [{
     key: "showTips",
@@ -375,16 +379,16 @@ var Email = /*#__PURE__*/function (_React$Component4) {
   _inherits(Email, _React$Component4);
   var _super4 = _createSuper(Email);
   function Email(props) {
-    var _this5;
+    var _this4;
     _classCallCheck(this, Email);
-    _this5 = _super4.call(this, props);
-    _this5.state = {
+    _this4 = _super4.call(this, props);
+    _this4.state = {
       isPassed: true
     };
-    _this5.handleInput = _this5.handleInput.bind(_assertThisInitialized(_this5));
-    _this5.handleFocus = _this5.handleFocus.bind(_assertThisInitialized(_this5));
-    _this5.showTip = _this5.showTip.bind(_assertThisInitialized(_this5));
-    return _this5;
+    _this4.handleInput = _this4.handleInput.bind(_assertThisInitialized(_this4));
+    _this4.handleFocus = _this4.handleFocus.bind(_assertThisInitialized(_this4));
+    _this4.showTip = _this4.showTip.bind(_assertThisInitialized(_this4));
+    return _this4;
   }
   _createClass(Email, [{
     key: "showTip",
@@ -396,19 +400,19 @@ var Email = /*#__PURE__*/function (_React$Component4) {
   }, {
     key: "handleInput",
     value: function handleInput(event) {
-      var _this6 = this;
+      var _this5 = this;
       this.props.showTips();
       if (event.target.value.match(/^[a-z0-9_.-]+@[a-z0-9-]+\.[a-z]{2,}$/)) {
         this.setState({
           isPassed: true
         }, function () {
-          return _this6.props.manipulteSubmit();
+          return _this5.props.manipulteSubmit();
         });
       } else {
         this.setState({
           isPassed: false
         }, function () {
-          return _this6.props.manipulteSubmit();
+          return _this5.props.manipulteSubmit();
         });
       }
     }
@@ -447,16 +451,16 @@ var Nickname = /*#__PURE__*/function (_React$Component5) {
   _inherits(Nickname, _React$Component5);
   var _super5 = _createSuper(Nickname);
   function Nickname(props) {
-    var _this7;
+    var _this6;
     _classCallCheck(this, Nickname);
-    _this7 = _super5.call(this, props);
-    _this7.state = {
+    _this6 = _super5.call(this, props);
+    _this6.state = {
       isPassed: true
     };
-    _this7.handleInput = _this7.handleInput.bind(_assertThisInitialized(_this7));
-    _this7.handleFocus = _this7.handleFocus.bind(_assertThisInitialized(_this7));
-    _this7.showTip = _this7.showTip.bind(_assertThisInitialized(_this7));
-    return _this7;
+    _this6.handleInput = _this6.handleInput.bind(_assertThisInitialized(_this6));
+    _this6.handleFocus = _this6.handleFocus.bind(_assertThisInitialized(_this6));
+    _this6.showTip = _this6.showTip.bind(_assertThisInitialized(_this6));
+    return _this6;
   }
   _createClass(Nickname, [{
     key: "showTip",
@@ -468,7 +472,7 @@ var Nickname = /*#__PURE__*/function (_React$Component5) {
   }, {
     key: "handleInput",
     value: function handleInput(event) {
-      var _this8 = this;
+      var _this7 = this;
       this.props.showTips();
       if (event.target.value.match(/^.{2,}$/)) {
         //setState - асинхронная функция поэтому чтобы использовать результат ее выполнения нужно
@@ -476,13 +480,13 @@ var Nickname = /*#__PURE__*/function (_React$Component5) {
         this.setState({
           isPassed: true
         }, function () {
-          return _this8.props.manipulteSubmit();
+          return _this7.props.manipulteSubmit();
         });
       } else {
         this.setState({
           isPassed: false
         }, function () {
-          return _this8.props.manipulteSubmit();
+          return _this7.props.manipulteSubmit();
         });
       }
     }
@@ -521,18 +525,18 @@ var Password = /*#__PURE__*/function (_React$Component6) {
   _inherits(Password, _React$Component6);
   var _super6 = _createSuper(Password);
   function Password(props) {
-    var _this9;
+    var _this8;
     _classCallCheck(this, Password);
-    _this9 = _super6.call(this, props);
-    _this9.state = {
+    _this8 = _super6.call(this, props);
+    _this8.state = {
       isPassed: true,
       passVisible: false
     };
-    _this9.handleInput = _this9.handleInput.bind(_assertThisInitialized(_this9));
-    _this9.handleFocus = _this9.handleFocus.bind(_assertThisInitialized(_this9));
-    _this9.handleClick = _this9.handleClick.bind(_assertThisInitialized(_this9));
-    _this9.showTip = _this9.showTip.bind(_assertThisInitialized(_this9));
-    return _this9;
+    _this8.handleInput = _this8.handleInput.bind(_assertThisInitialized(_this8));
+    _this8.handleFocus = _this8.handleFocus.bind(_assertThisInitialized(_this8));
+    _this8.handleClick = _this8.handleClick.bind(_assertThisInitialized(_this8));
+    _this8.showTip = _this8.showTip.bind(_assertThisInitialized(_this8));
+    return _this8;
   }
   _createClass(Password, [{
     key: "showTip",
@@ -544,20 +548,20 @@ var Password = /*#__PURE__*/function (_React$Component6) {
   }, {
     key: "handleInput",
     value: function handleInput(event) {
-      var _this10 = this;
+      var _this9 = this;
       this.props.showTips();
       if (this.props.passId.includes("first")) this.props.checkPassIdentity();
       if (event.target.value.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}$/)) {
         this.setState({
           isPassed: true
         }, function () {
-          return _this10.props.manipulteSubmit();
+          return _this9.props.manipulteSubmit();
         });
       } else {
         this.setState({
           isPassed: false
         }, function () {
-          return _this10.props.manipulteSubmit();
+          return _this9.props.manipulteSubmit();
         });
       }
     }
@@ -629,28 +633,28 @@ var Password2 = /*#__PURE__*/function (_Password) {
   _inherits(Password2, _Password);
   var _super7 = _createSuper(Password2);
   function Password2(props) {
-    var _this11;
+    var _this10;
     _classCallCheck(this, Password2);
-    _this11 = _super7.call(this, props);
-    _this11.checkPassIdentity = _this11.checkPassIdentity.bind(_assertThisInitialized(_this11));
-    return _this11;
+    _this10 = _super7.call(this, props);
+    _this10.checkPassIdentity = _this10.checkPassIdentity.bind(_assertThisInitialized(_this10));
+    return _this10;
   }
   _createClass(Password2, [{
     key: "handleInput",
     value: function handleInput(event) {
-      var _this12 = this;
+      var _this11 = this;
       this.props.showTips();
       if (event.target.value === document.getElementById(this.props.passIdBind).value) {
         this.setState({
           isPassed: true
         }, function () {
-          return _this12.props.manipulteSubmit();
+          return _this11.props.manipulteSubmit();
         });
       } else {
         this.setState({
           isPassed: false
         }, function () {
-          return _this12.props.manipulteSubmit();
+          return _this11.props.manipulteSubmit();
         });
       }
     }
@@ -716,16 +720,16 @@ var Captcha = /*#__PURE__*/function (_React$Component7) {
   _inherits(Captcha, _React$Component7);
   var _super8 = _createSuper(Captcha);
   function Captcha(props) {
-    var _this13;
+    var _this12;
     _classCallCheck(this, Captcha);
-    _this13 = _super8.call(this, props);
-    _this13.state = {
+    _this12 = _super8.call(this, props);
+    _this12.state = {
       isPassed: true
     };
-    _this13.handleInput = _this13.handleInput.bind(_assertThisInitialized(_this13));
-    _this13.handleFocus = _this13.handleFocus.bind(_assertThisInitialized(_this13));
-    _this13.showTip = _this13.showTip.bind(_assertThisInitialized(_this13));
-    return _this13;
+    _this12.handleInput = _this12.handleInput.bind(_assertThisInitialized(_this12));
+    _this12.handleFocus = _this12.handleFocus.bind(_assertThisInitialized(_this12));
+    _this12.showTip = _this12.showTip.bind(_assertThisInitialized(_this12));
+    return _this12;
   }
   _createClass(Captcha, [{
     key: "showTip",
@@ -742,19 +746,19 @@ var Captcha = /*#__PURE__*/function (_React$Component7) {
   }, {
     key: "handleInput",
     value: function handleInput(event) {
-      var _this14 = this;
+      var _this13 = this;
       this.props.showTips();
       if (event.target.value.match(/^[a-zA-Z0-9]{6}$/)) {
         this.setState({
           isPassed: true
         }, function () {
-          return _this14.props.manipulteSubmit();
+          return _this13.props.manipulteSubmit();
         });
       } else {
         this.setState({
           isPassed: false
         }, function () {
-          return _this14.props.manipulteSubmit();
+          return _this13.props.manipulteSubmit();
         });
       }
     }
@@ -779,10 +783,23 @@ var Captcha = /*#__PURE__*/function (_React$Component7) {
   }]);
   return Captcha;
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    fetchCaptchaState: function fetchCaptchaState() {
+      return _store_services_logreg_service__WEBPACK_IMPORTED_MODULE_2__.logregAPI.endpoints.fetchCaptcha.select()(state);
+    }
+  };
+};
+var mapDispatchToProps = {
+  fetchCaptcha: _store_services_logreg_service__WEBPACK_IMPORTED_MODULE_2__.logregAPI.endpoints.fetchCaptcha.initiate
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(FormBar));
+
 /*ReactDOM.render(
   <FormBar />,
   document.getElementById('logreg-form')
 );*/
+
 /*<div class="text-center">
         <input type="checkbox" class="btn-check" id="btn-check-login">
                 <label class="btn shadow-none checked" for="btn-check-login">Войти</label>

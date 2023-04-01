@@ -1,9 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
+import { goodsAPI } from "../store/services/goods_service";
 
-export default class ProductWrapper extends React.Component {
+class ProductWrapper extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { goods: 0 };
+		//this.state = { goods: 0 };
 		this.getGoods = this.getGoods.bind(this);
 	}
 
@@ -17,35 +19,51 @@ export default class ProductWrapper extends React.Component {
 		data.append('command', 'getGoods');
 		data.append('since', 0);*/
 		//let searchParams = new URLSearchParams(location.search);
-		fetch('/api', {
+		/*fetch('/api', {
 			method: 'POST',
 		    headers: {
 		      'Accept': 'application/json',
 		      'Content-Type': 'application/json'
 		    },
-		    body: JSON.stringify({ command: 'getGoodsById', id: /*window.location.href.match("goods/(.+)#?")[1]*/ window.location.pathname.split('/').pop() || window.location.pathname.split('/').slice(0, -1).pop() })
+		    body: JSON.stringify({ command: 'getGoodsById', id: window.location.pathname.split('/').pop() || window.location.pathname.split('/').slice(0, -1).pop() })
 		}).then(response => {
 			response.json().then(body => {
 				this.setState({ goods: body.goods[0] });
 				//console.log(this.state.goods);
 			});
-		});
+		});*/
+		//id: window.location.href.match("goods/(.+)#?")[1]
 		//console.log(10);
+		this.props.fetchGoodsById(window.location.pathname.split('/').pop() || window.location.pathname.split('/').slice(0, -1).pop());
 	}
 
 	render() {
-		if (!this.state.goods[0]) {
-			return null;
+		const id = window.location.pathname.split('/').pop() || window.location.pathname.split('/').slice(0, -1).pop();
+		let goods = this.props.fetchGoodsByIdState(id);
+		let rows = null;
+		//console.log(goods);
+		if (!goods.isLoading &&
+			!goods.isUninitialized) {
+			if (!goods.isError) {
+				goods = goods.data.goods[0][0];
+				console.log(goods);
+				//console.log(goods);
+				rows = (<Product id={goods.id} name={goods.name} img={goods.photos} price={goods.price}
+					createdAt={goods.created_at} desc={goods.description} views={goods.views} />);
+			} else {
+				rows = goods.error.data.error;
+			}
 		}
 		else {
-			return (
-				<div class="mb-3 mt-3">
-					<main id="goods-min">
-						<Product id={this.state.goods[0].id} name={this.state.goods[0].name} img={this.state.goods[0].photos} price={this.state.goods[0].price} createdAt={this.state.goods[0].created_at} desc={this.state.goods[0].description} views={this.state.goods[0].views} />
-					</main>
-				</div>
-			);
+			rows = 'Подождите, идет загрузка...';
 		}
+		return (
+			<div class="mb-3 mt-3">
+				<main id="goods-min">
+					{rows}
+				</main>
+			</div>
+		);
 	}
 }
 
@@ -112,6 +130,18 @@ class Product extends React.Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+    return {
+		fetchGoodsByIdState: (id) => goodsAPI.endpoints.fetchGoodsById.select(id)(state)
+    };
+}
+
+const mapDispatchToProps = {
+    fetchGoodsById: goodsAPI.endpoints.fetchGoodsById.initiate//(args) => dispatch(goodsAPI.endpoints.fetchAllGoods.initiate(args)) //(args) => dispatch(getGoodsFromAPI(args))
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductWrapper);
 
 /*class SearchGoods extends React.Component {
 	constructor(props) {

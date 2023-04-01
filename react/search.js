@@ -1,6 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
+import { setLastArgs } from "../store/reducers/goods_slice";
+import { goodsAPI } from "../store/services/goods_service";
 
-export default class Search extends React.Component {
+class Search extends React.Component {
 	constructor(props) {
 		super(props);
 		this.getGoods = this.getGoods.bind(this);
@@ -53,7 +56,8 @@ export default class Search extends React.Component {
 		}).catch(reject => {
 			this.props.updateGoods(reject.error);
 		});*/
-		this.props.getGoodsFromAPI(query, since, sort);
+		this.props.fetchAllGoods({ word: query, since, sort });
+		this.props.setLastArgs({ word: query, since, sort });
 	}
 
 	/*getGoods(event) {
@@ -121,3 +125,17 @@ export default class Search extends React.Component {
 		);
 	}
 }
+
+/*const mapStateToProps = (state) => {
+    return {
+		fetchAllGoodsState: (args) => goodsAPI.endpoints.fetchAllGoods.select(args)(state),
+		lastArgs: state.goodsReducer.lastArgs
+    };
+}*/
+
+const mapDispatchToProps = {
+    fetchAllGoods: goodsAPI.endpoints.fetchAllGoods.initiate,//(args) => dispatch(goodsAPI.endpoints.fetchAllGoods.initiate(args)) //(args) => dispatch(getGoodsFromAPI(args))
+	setLastArgs: setLastArgs
+}
+
+export default connect(null, mapDispatchToProps)(Search);

@@ -73,21 +73,21 @@ app.use(express.json());
 app.engine('hbs', expressHbs.engine(
 	{
 		defaultLayout: "layout",
-		extname: 'hbs',
-		helpers: {
+		extname: 'hbs'
+		/*helpers: {
 	        style(page) {
 			    return new hbs.SafeString('<link href="/css/' + page + '.css" rel="stylesheet">');
 	        },
-	        /*script(page) {
-			    return new hbs.SafeString('<script src="/js/' + page + '.js"></script>');
-	        },
-	        categoriesScript(categories) {
-	        	return categories ? new hbs.SafeString('<script src="/js/categories.js"></script>') : null;
-	        },*/
 	        categoriesStyle(categories) {
 	        	return categories ? new hbs.SafeString('<link href="/css/categories.css" rel="stylesheet">') : null;
 	        }
-	    }
+	    }*/
+		/*script(page) {
+			return new hbs.SafeString('<script src="/js/' + page + '.js"></script>');
+		},
+		categoriesScript(categories) {
+			return categories ? new hbs.SafeString('<script src="/js/categories.js"></script>') : null;
+		},*/
 	}
 ));
 
@@ -167,10 +167,7 @@ app.get("/confirm", function(request, response) {
 
 app.get("/logreg", function(request, response) {
 	if (!request.user) {
-		response.render("index", {
-        	categories: false,
-        	page: "logreg"
-    	});
+		response.render("index");
 	}
 	else {
 		response.send(request.user);
@@ -346,9 +343,42 @@ app.get("/", function(request, response) {
     });
 });
 
+app.get("/api/goods", function(request,response) {
+	let getter = new goods.Getter(pool);
+	if (request.query.sort) {
+		getter.search(request.query.word, request.query.since, request.query.sort).then(result => {
+			if (result[0].length == 0) {
+				response.status(404).send({error: 'Ничего не найдено!'});
+				return;
+			}
+			response.json( { 'goods': [result[0]] } );
+		});
+	}
+	else {
+		getter.search(request.query.word, request.query.since).then(result => {
+			if (result[0].length == 0) {
+				response.status(404).send({error: 'Ничего не найдено!'});
+				return;
+			}
+			response.json( { 'goods': [result[0]] } );
+		});
+	}
+});
+
+app.get("/api/goods/:id", function(request, response) {
+	let getter = new goods.Getter(pool);
+	getter.getById(request.params["id"]).then(result => {
+		if (result[0].length == 0) {
+			response.status(404).send({error: 'Ничего не найдено!'});
+			return;
+		}
+		response.json( { 'goods': [result[0]] } );
+	});
+});
+
 app.post("/api", function(request, response) {
 	//console.log(request.body);
-	if (request.body.command == 'getNew') {
+	/*if (request.body.command == 'getNew') {
 		let getter = new goods.Getter(pool);
 		getter.getNew(request.body.since).then(result => {
 			response.json( { 'goods': [result[0]] } );
@@ -378,8 +408,8 @@ app.post("/api", function(request, response) {
 				response.json( { 'goods': [result[0]] } );
 			});
 		}
-	}
-	else if (request.body.command == 'isLoggedIn') {
+	}*/
+	if (request.body.command == 'isLoggedIn') {
 		//console.log(request.user.is_confirmed);
 		if (!request.user) { response.json( { 'logout': false } ); }
 		if (!request.user.is_confirmed) { response.json( { 'logout': true, 'confirm': false, 'nick': request.user.nickname } ); }
@@ -387,6 +417,11 @@ app.post("/api", function(request, response) {
 	}
 });
 
+
+
+
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 app.get("/goods/create", function(request, response) {
 	response.render("goods_create", {
         page: "goods_create",
@@ -399,10 +434,7 @@ app.get("/goods/:id", function(request, response) {
 		.catch(err => {
 			console.log(err.message);
 		});
-	response.render("index", {
-        page: "goods",
-        categories: false
-    });
+	response.render("index");
 });
 
 /*app.get("/test", function(request, response) {

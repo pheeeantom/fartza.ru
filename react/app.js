@@ -1,12 +1,16 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
+import { setupStore } from '../store/store';
+import { Provider } from 'react-redux';
+
+export const store = setupStore();
 
 //import emitter from "./emitter.js";
 
 //const GoodsMin = lazy(() => import('./goods-min.js'));
 const Search = lazy(() => import('./search.js'));
-const NavBar = lazy(() => import('./nav.js'));
+const NavBar = lazy(() => import('./nav/nav_bar.js'));
 //const CategoriesBar = lazy(() => import('./categories.js'));
 const Main = lazy(() => import('./main.js'));
 //const ProductWrapper = lazy(() => import('./goods.js'));
@@ -51,17 +55,17 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { goods: "" };
-        this.updateGoods = this.updateGoods.bind(this);
-        this.sendAPIRequest = this.sendAPIRequest.bind(this);
-        this.getGoodsFromAPI = this.getGoodsFromAPI.bind(this);
+        //this.state = { goods: "" };
+        //this.updateGoods = this.updateGoods.bind(this);
+        //this.sendAPIRequest = this.sendAPIRequest.bind(this);
+        //this.getGoodsFromAPI = this.getGoodsFromAPI.bind(this);
     }
 
-    updateGoods = (value) => {
+    /*updateGoods = (value) => {
         this.setState({ goods: value });
-    }
+    }*/
 
-    sendAPIRequest(params, uri, method) {
+    /*sendAPIRequest(params, uri, method) {
         let query = '';
         let headers = {};
         if (method == 'GET') {
@@ -118,9 +122,9 @@ class App extends React.Component {
                 });
             });
         });
-    }
+    }*/
 
-    getGoodsFromAPI(word, since, sort) {
+    /*getGoodsFromAPI(word, since, sort) {
 		this.sendAPIRequest({ command: 'searchGoods', word: word, since: since, sort: sort }, '/api', 'POST').then(resolve => {
 			if (resolve.body.goods[0].length == 0) {
 				this.updateGoods('Ничего не найдено!');
@@ -130,20 +134,22 @@ class App extends React.Component {
 		}).catch(reject => {
 			this.updateGoods(reject.error);
 		});
-    }
+    }*/
 
     render() {
         return (
             <ErrorBoundary>
-                <Router>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <Routes>
-                            <Route path="/" element={<div><NavBar updateGoods={this.updateGoods} getGoodsFromAPI={this.getGoodsFromAPI} /><Search updateGoods={this.updateGoods} getGoodsFromAPI={this.getGoodsFromAPI} /><Main goods={this.state.goods} updateGoods={this.updateGoods} getGoodsFromAPI={this.getGoodsFromAPI} /></div>} />
-                            <Route path="/goods/:id" element={<div><NavBar updateGoods={this.updateGoods} getGoodsFromAPI={this.getGoodsFromAPI} /><Search updateGoods={this.updateGoods} getGoodsFromAPI={this.getGoodsFromAPI} /><Main goods={this.state.goods} updateGoods={this.updateGoods} getGoodsFromAPI={this.getGoodsFromAPI} /></div>} />
-                            <Route path="/logreg" element={<div><NavBar updateGoods={this.updateGoods} getGoodsFromAPI={this.getGoodsFromAPI} disableTiles={true} /><LogReg /></div>} />
-                        </Routes>
-                    </Suspense>
-                </Router>
+                <Provider store={store}>
+                    <Router>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Routes>
+                                <Route path="/" element={<div><NavBar /><Search /><Main /></div>} />
+                                <Route path="/goods/:id" element={<div><NavBar /><Search /><Main /></div>} />
+                                <Route path="/logreg" element={<div><NavBar disableTiles={true} /><LogReg /></div>} />
+                            </Routes>
+                        </Suspense>
+                    </Router>
+                </Provider>
             </ErrorBoundary>
         );
     }
