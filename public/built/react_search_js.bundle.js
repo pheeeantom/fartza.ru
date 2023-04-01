@@ -72,6 +72,7 @@ var Search = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "getGoodsURL",
     value: function getGoodsURL(query, since, sort) {
+      var _sort;
       /*fetch('/api', {
       	method: 'POST',
           headers: {
@@ -93,6 +94,7 @@ var Search = /*#__PURE__*/function (_React$Component) {
       }).catch(reject => {
       	this.props.updateGoods(reject.error);
       });*/
+      sort = (_sort = sort) !== null && _sort !== void 0 ? _sort : 'new';
       this.props.fetchAllGoods({
         word: query,
         since: since,

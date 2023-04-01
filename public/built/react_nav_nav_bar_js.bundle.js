@@ -314,25 +314,18 @@ var LogReg = /*#__PURE__*/function (_React$Component2) {
   _createClass(LogReg, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this3 = this;
-      fetch('/api', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          command: 'isLoggedIn'
-        })
-      }).then(function (response) {
-        response.json().then(function (body) {
-          _this3.setState({
-            logout: body.logout,
-            confirm: body.confirm,
-            nick: body.nick
-          });
-        });
-      });
+      /*fetch('/api', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ command: 'isLoggedIn' })
+        }).then(response => {
+            response.json().then(body => {
+                this.setState({logout: body.logout, confirm: body.confirm, nick: body.nick});
+            });
+        });*/
     }
   }, {
     key: "render",
@@ -342,7 +335,7 @@ var LogReg = /*#__PURE__*/function (_React$Component2) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
           className: "nav-item d-block d-sm-block d-md-inline-block px-3"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-          href: "/logreg",
+          href: "#",
           className: "nav-link",
           id: "logreg"
         }, "\u0412\u0445\u043E\u0434/\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F"));

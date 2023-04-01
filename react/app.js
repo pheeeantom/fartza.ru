@@ -14,7 +14,6 @@ const NavBar = lazy(() => import('./nav/nav_bar.js'));
 //const CategoriesBar = lazy(() => import('./categories.js'));
 const Main = lazy(() => import('./main.js'));
 //const ProductWrapper = lazy(() => import('./goods.js'));
-const LogReg = lazy(() => import('./logreg.js'));
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -145,7 +144,6 @@ class App extends React.Component {
                             <Routes>
                                 <Route path="/" element={<div><NavBar /><Search /><Main /></div>} />
                                 <Route path="/goods/:id" element={<div><NavBar /><Search /><Main /></div>} />
-                                <Route path="/logreg" element={<div><NavBar disableTiles={true} /><LogReg /></div>} />
                             </Routes>
                         </Suspense>
                     </Router>

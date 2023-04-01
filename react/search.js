@@ -56,6 +56,7 @@ class Search extends React.Component {
 		}).catch(reject => {
 			this.props.updateGoods(reject.error);
 		});*/
+		sort = sort ?? 'new';
 		this.props.fetchAllGoods({ word: query, since, sort });
 		this.props.setLastArgs({ word: query, since, sort });
 	}

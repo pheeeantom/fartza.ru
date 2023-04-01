@@ -10423,9 +10423,6 @@ var Main = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.lazy)(function () 
   return __webpack_require__.e(/*! import() */ "react_main_js").then(__webpack_require__.bind(__webpack_require__, /*! ./main.js */ "./react/main.js"));
 });
 //const ProductWrapper = lazy(() => import('./goods.js'));
-var LogReg = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.lazy)(function () {
-  return __webpack_require__.e(/*! import() */ "react_logreg_js").then(__webpack_require__.bind(__webpack_require__, /*! ./logreg.js */ "./react/logreg.js"));
-});
 var ErrorBoundary = /*#__PURE__*/function (_React$Component) {
   _inherits(ErrorBoundary, _React$Component);
   var _super = _createSuper(ErrorBoundary);
@@ -10566,11 +10563,6 @@ var App = /*#__PURE__*/function (_React$Component2) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
         path: "/goods/:id",
         element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NavBar, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Search, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Main, null))
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
-        path: "/logreg",
-        element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NavBar, {
-          disableTiles: true
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(LogReg, null))
       }))))));
     }
   }]);
@@ -10779,37 +10771,6 @@ var setLastArgs = actions.setLastArgs;
 
 /***/ }),
 
-/***/ "./store/reducers/logreg_slice.js":
-/*!****************************************!*\
-  !*** ./store/reducers/logreg_slice.js ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   "logregSlice": () => (/* binding */ logregSlice)
-/* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
-var initialState = {};
-var logregSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-  name: 'logreg',
-  initialState: initialState,
-  reducers: {}
-});
-
-//const { actions, reducer } = logregSlice;
-var reducer = logregSlice.reducer;
-
-// export individual action creator functions
-//export const { setLastArgs } = actions;
-
-// often the reducer is a default export, but that doesn't matter
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (reducer);
-
-/***/ }),
-
 /***/ "./store/services/goods_service.js":
 /*!*****************************************!*\
   !*** ./store/services/goods_service.js ***!
@@ -10862,41 +10823,6 @@ var goodsAPI = (0,_rtk_incubator_rtk_query__WEBPACK_IMPORTED_MODULE_0__.createAp
 
 /***/ }),
 
-/***/ "./store/services/logreg_service.js":
-/*!******************************************!*\
-  !*** ./store/services/logreg_service.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "logregAPI": () => (/* binding */ logregAPI)
-/* harmony export */ });
-/* harmony import */ var _rtk_incubator_rtk_query__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @rtk-incubator/rtk-query */ "./node_modules/@rtk-incubator/rtk-query/dist/esm/fetchBaseQuery.js");
-/* harmony import */ var _rtk_incubator_rtk_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @rtk-incubator/rtk-query */ "./node_modules/@rtk-incubator/rtk-query/dist/esm/core/index.js");
-
-
-var logregAPI = (0,_rtk_incubator_rtk_query__WEBPACK_IMPORTED_MODULE_0__.createApi)({
-  reducerPath: 'logregAPI',
-  baseQuery: (0,_rtk_incubator_rtk_query__WEBPACK_IMPORTED_MODULE_1__.fetchBaseQuery)({
-    baseUrl: ''
-  }),
-  endpoints: function endpoints(build) {
-    return {
-      //круглые скобки нужны чтобы сразу получать объект
-      fetchCaptcha: build.query({
-        query: function query() {
-          return {
-            url: '/getCaptcha'
-          };
-        }
-      })
-    };
-  }
-});
-
-/***/ }),
-
 /***/ "./store/store.js":
 /*!************************!*\
   !*** ./store/store.js ***!
@@ -10907,14 +10833,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "setupStore": () => (/* binding */ setupStore)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-/* harmony import */ var _reduxjs_toolkit_query__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @reduxjs/toolkit/query */ "./node_modules/@reduxjs/toolkit/dist/query/rtk-query.esm.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _reduxjs_toolkit_query__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @reduxjs/toolkit/query */ "./node_modules/@reduxjs/toolkit/dist/query/rtk-query.esm.js");
 /* harmony import */ var _reducers_goods_slice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./reducers/goods_slice */ "./store/reducers/goods_slice.js");
 /* harmony import */ var _services_goods_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/goods_service */ "./store/services/goods_service.js");
-/* harmony import */ var _reducers_logreg_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reducers/logreg_slice */ "./store/reducers/logreg_slice.js");
-/* harmony import */ var _services_logreg_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/logreg_service */ "./store/services/logreg_service.js");
-var _combineReducers;
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
@@ -10923,19 +10846,17 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
-
-
-var rootReducer = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_4__.combineReducers)((_combineReducers = {
+var rootReducer = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__.combineReducers)(_defineProperty({
   goodsReducer: _reducers_goods_slice__WEBPACK_IMPORTED_MODULE_0__["default"]
-}, _defineProperty(_combineReducers, _services_goods_service__WEBPACK_IMPORTED_MODULE_1__.goodsAPI.reducerPath, _services_goods_service__WEBPACK_IMPORTED_MODULE_1__.goodsAPI.reducer), _defineProperty(_combineReducers, "logregReducer", _reducers_logreg_slice__WEBPACK_IMPORTED_MODULE_2__["default"]), _defineProperty(_combineReducers, _services_logreg_service__WEBPACK_IMPORTED_MODULE_3__.logregAPI.reducerPath, _services_logreg_service__WEBPACK_IMPORTED_MODULE_3__.logregAPI.reducer), _combineReducers));
+}, _services_goods_service__WEBPACK_IMPORTED_MODULE_1__.goodsAPI.reducerPath, _services_goods_service__WEBPACK_IMPORTED_MODULE_1__.goodsAPI.reducer));
 var setupStore = function setupStore() {
-  var store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_5__.configureStore)({
+  var store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_3__.configureStore)({
     reducer: rootReducer,
     middleware: function middleware(getDefaultMiddleware) {
-      return getDefaultMiddleware().concat(_services_goods_service__WEBPACK_IMPORTED_MODULE_1__.goodsAPI.middleware).concat(_services_logreg_service__WEBPACK_IMPORTED_MODULE_3__.logregAPI.middleware);
+      return getDefaultMiddleware().concat(_services_goods_service__WEBPACK_IMPORTED_MODULE_1__.goodsAPI.middleware);
     }
   });
-  (0,_reduxjs_toolkit_query__WEBPACK_IMPORTED_MODULE_6__.setupListeners)(store.dispatch);
+  (0,_reduxjs_toolkit_query__WEBPACK_IMPORTED_MODULE_4__.setupListeners)(store.dispatch);
   return store;
 };
 

@@ -97,7 +97,7 @@ class LogReg extends React.Component {
       this.state = {logout: false, confirm: null, nick: null};
   }
   componentDidMount() {
-      fetch('/api', {
+      /*fetch('/api', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -108,13 +108,13 @@ class LogReg extends React.Component {
             response.json().then(body => {
                 this.setState({logout: body.logout, confirm: body.confirm, nick: body.nick});
             });
-        });
+        });*/
   }
   render() {
       console.log(this.state);
       if (!this.state.logout) {
         return (
-        <li className="nav-item d-block d-sm-block d-md-inline-block px-3"><a href="/logreg" className="nav-link" id="logreg">Вход/Регистрация</a></li>
+        <li className="nav-item d-block d-sm-block d-md-inline-block px-3"><a href="#" className="nav-link" id="logreg">Вход/Регистрация</a></li>
       );
       }
     else {
