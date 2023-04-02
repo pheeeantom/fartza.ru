@@ -21,10 +21,17 @@ module.exports = {
                     options: {
                         presets: ["@babel/preset-env", "@babel/preset-react"],
                         //plugins: ["@babel/plugin-transform-react-jsx-source", "@babel/plugin-syntax-jsx"]
+                        plugins: [
+                          
+                        ]
                     }
                 }]
+            },
+            {
+              test: /\.css$/,
+              use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
             }
-        ]
+           ]
     }
 };
 
