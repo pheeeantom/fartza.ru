@@ -177,6 +177,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _nav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nav */ "./react/nav/nav.js");
 /* harmony import */ var _links__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./links */ "./react/nav/links.js");
+/* harmony import */ var _styles_output_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/output.css */ "./react/styles/output.css");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -191,6 +192,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -264,38 +266,55 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var rows = [];
       for (var i = 0; i < _links__WEBPACK_IMPORTED_MODULE_2__.links.length; i++) {
-        rows.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_nav__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          isActive: this.state.isActive[i],
-          name: _links__WEBPACK_IMPORTED_MODULE_2__.links[i],
-          func: this.output,
-          updateGoods: this.props.updateGoods,
-          getGoodsFromAPI: this.props.getGoodsFromAPI
-        }));
+        //rows.push(<Nav isActive={this.state.isActive[i]} name={links[i]} func={this.output} updateGoods={this.props.updateGoods} getGoodsFromAPI={this.props.getGoodsFromAPI} />);
       }
       var tiles;
       if (!this.props.disableTiles) {
         tiles = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-          className: "d-md-none",
-          style: {
-            width: '100vw'
-          }
+          className: "md:hidden w-full"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
-          className: "nav nav-pills d-block d-sm-block d-md-flex",
+          className: "sm:block md:flex text-center",
           id: "nav"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, rows, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(LogReg, null)))));
       }
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("header", {
-        className: "d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom px-5"
+        className: "flex sticky px-12 py-4 bg-zinc-700 w-full"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
         href: "/",
-        className: "d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+        className: "flex-none no-underline text-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-        className: "fs-4"
+        className: "text-lg text-white"
       }, "FARTZA")), tiles);
     }
   }]);
   return NavBar;
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
+/*
+if (!this.props.disableTiles) {
+  tiles = (<div>
+            <div className="d-md-none" style={{width: '100vw'}}></div>
+              <nav>
+                <ul className="nav nav-pills d-block d-sm-block d-md-flex" id="nav">
+
+                  <span>
+                    {rows}
+                    <LogReg/>
+                  </span>
+
+                </ul>
+              </nav>
+            </div>);
+}
+return (
+  <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom px-5">
+      <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+          <span className="fs-4">FARTZA</span>
+      </a>
+
+      {tiles}
+  </header>
+);
+*/
 
 var LogReg = /*#__PURE__*/function (_React$Component2) {
   _inherits(LogReg, _React$Component2);

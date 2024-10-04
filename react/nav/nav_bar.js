@@ -3,6 +3,8 @@ import React from "react";
 import Nav from './nav';
 import { links } from "./links";
 
+import '../styles/output.css';
+
 export default class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -61,14 +63,14 @@ export default class NavBar extends React.Component {
   render() {
     let rows = [];
     for (let i = 0; i < links.length; i++) {
-      rows.push(<Nav isActive={this.state.isActive[i]} name={links[i]} func={this.output} updateGoods={this.props.updateGoods} getGoodsFromAPI={this.props.getGoodsFromAPI} />);
+      //rows.push(<Nav isActive={this.state.isActive[i]} name={links[i]} func={this.output} updateGoods={this.props.updateGoods} getGoodsFromAPI={this.props.getGoodsFromAPI} />);
     }
     let tiles;
     if (!this.props.disableTiles) {
       tiles = (<div>
-                <div className="d-md-none" style={{width: '100vw'}}></div>
+                <div className="md:hidden w-full"></div>
                   <nav>
-                    <ul className="nav nav-pills d-block d-sm-block d-md-flex" id="nav">
+                    <ul className="sm:block md:flex text-center" id="nav">
 
                       <span>
                         {rows}
@@ -80,9 +82,9 @@ export default class NavBar extends React.Component {
                 </div>);
     }
     return (
-      <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom px-5">
-          <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-              <span className="fs-4">FARTZA</span>
+      <header className="flex sticky px-12 py-4 bg-zinc-700 w-full">
+          <a href="/" className="flex-none no-underline text-left">
+              <span className="text-lg text-white">FARTZA</span>
           </a>
 
           {tiles}
@@ -90,6 +92,33 @@ export default class NavBar extends React.Component {
     );
   }
 }
+
+/*
+if (!this.props.disableTiles) {
+  tiles = (<div>
+            <div className="d-md-none" style={{width: '100vw'}}></div>
+              <nav>
+                <ul className="nav nav-pills d-block d-sm-block d-md-flex" id="nav">
+
+                  <span>
+                    {rows}
+                    <LogReg/>
+                  </span>
+
+                </ul>
+              </nav>
+            </div>);
+}
+return (
+  <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom px-5">
+      <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+          <span className="fs-4">FARTZA</span>
+      </a>
+
+      {tiles}
+  </header>
+);
+*/
 
 class LogReg extends React.Component {
   constructor(props) {

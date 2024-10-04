@@ -143,15 +143,18 @@ class App extends React.Component {
                     <Router>
                         <Suspense fallback={<div>Loading...</div>}>
                             <Routes>
-                                <Route path="/" element={<div><NavBar /><Search /><Main /></div>} />
-                                <Route path="/goods/:id" element={<div><NavBar /><Search /><Main /></div>} />
+                                <Route path="/" element={<NavBar />} />
                             </Routes>
                         </Suspense>
                     </Router>
                 </Provider>
             </ErrorBoundary>
         );
-        /*return (
+        /*
+        <Route path="/" element={<div><NavBar /><Search /><Main /></div>} />
+        <Route path="/goods/:id" element={<div><NavBar /><Search /><Main /></div>} />
+        
+        return (
             <div
             class={`h-screen w-full flex items-center justify-center bg-gray-300 flex-col`}
             >
